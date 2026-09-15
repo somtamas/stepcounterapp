@@ -5,3 +5,12 @@ async function navigate(page) {
 }
 
 navigate('/users/home');
+
+function lepescountchange() {
+    if(document.getElementById("ujlepesszam").value==="") {
+        document.getElementById("lepes_count").innerHTML=10000;
+    }
+    else {
+        document.getElementById("lepes_count").innerHTML=document.getElementById("ujlepesszam").value;
+    }
+}

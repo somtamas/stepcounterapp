@@ -36,3 +36,12 @@ p {
 .logo {
     font-size: 400%;
 }
+
+.dashrow {
+    background-color: var(--bs-secondary-bg);
+    border: 2px solid rgb(39, 39, 39);
+}
+
+.dashrow button {
+    margin: 10px;
+}

@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-4 dashrow">
+        <h4 style="color: var(--bs-primary);">Napi cél lépésszám:</h4>
+        <h3 id="lepes_count" style="text-align: center; font-weight: bold;">10000</h3>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="float: right;">
+            <i class="bi bi-pen-fill"></i>&nbsp;&nbsp;Módosítás
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Új cél:</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="number" id="ujlepesszam">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="lepescountchange()">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4 dashrow">
+        <h4 style="color: var(--bs-primary);">Heti átlag lépésszám:</h4>
+        <h3 id="hetiatlaglepes" style="text-align: center; font-weight: bold;">8340</h3>
+    </div>
+    <div class="col-4 dashrow">
+        <h4 style="color: var(--bs-primary);">Sikeres napok:</h4>
+        <h3 id="hetiatlaglepes" style="text-align: center; font-weight: bold;">2</h3>
+    </div>
+</div>
+<div>
+    <p>Ide a héten elért lépésszámokra lehetne megcsinálni egy oszlopdiagramot, de még nincs elég infó</p>
+</div>
