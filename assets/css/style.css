@@ -45,3 +45,13 @@ p {
 .dashrow button {
     margin: 10px;
 }
+
+.themeSwitch {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.hide {
+    display: none;
+}

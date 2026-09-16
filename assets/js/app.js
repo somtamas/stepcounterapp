@@ -1,10 +1,53 @@
-let contentBox = document.getElementById('content');
+let contentBox = document.querySelector('#content');
+
+let lightModeBtn = document.querySelector('#lightModeBtn');
+let darkModeBtn = document.querySelector('#darkModeBtn')
+
+let theme = 'light';
 
 async function navigate(page) {
     contentBox.innerHTML = await (await fetch(`views/${page}.html`)).text();
 }
 
+lightModeBtn.addEventListener('click', ()=> {
+    let theme = 'light';
+    setTheme(theme);
+})
+
+darkModeBtn.addEventListener('click', ()=> {
+    let theme = 'dark'
+    setTheme(theme);
+})
+
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    saveTheme(theme);
+    setThemeBtnState();
+}
+
+function setThemeBtnState() {
+    lightModeBtn.classList.toggle('hide');
+    darkModeBtn.classList.toggle('hide');
+}
+
+function saveTheme(theme) {
+    localStorage.setItem('SCT', theme);
+}
+
+function loadTheme() {
+    theme = 'light';
+    if (localStorage.getItem('SCT')) {
+        theme = localStorage.getItem('SCT');
+        if (theme == 'dark') {
+            setThemeBtnState();
+        }
+    }
+    setTheme(theme);
+}
+
 navigate('/users/home');
+
+loadTheme();
 
 function lepescountchange() {
     if(document.getElementById("ujlepesszam").value==="") {
