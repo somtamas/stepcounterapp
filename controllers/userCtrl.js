@@ -1,14 +1,123 @@
-async function registration() {
-    let name = document.querySelector('#name');
-    let email = document.querySelector('#email');
-    let password = document.querySelector('#password');
-    let confirm = document.querySelector('#confirm');
+async function registration(){
+    let name = document.querySelector('#name').value;
+    let email = document.querySelector('#email').value;
+    let passwd = document.querySelector('#passwd').value;
+    let confirm = document.querySelector('#confirm').value;
+ 
+    // meg kell szolitani a servert
+ 
+    let user = {
+        name, // name : name,
+        email,
+        passwd,
+        confirm
+    }
+    const response = await fetch('http://localhost:3000/users/register', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "Application/json"
+        },
+        body: JSON.stringify(user)
+    });
+ 
+    const res = await response.json();
+ 
+    if(response.status != 200){
+        showMessage('danger', 'ERROR', res.error);
+    }
+    else
+    {
+        showMessage('success', 'ok', res.message);
+        navigate('views/users/login');
+    }
+}
 
-    // meg kell szólítani a servert
+async function login() {
+    let email = document.querySelector('#email').value;
+    let password = document.querySelector('#password').value;
 
-    const response = await fetch('http://localhost:3000/admin/users')
+    let user = {
+        email,
+        password
+    }
 
-    const data = await response.json();
+    const response = await fetch(`http://localhost:3000/users/login`, {
+        method: 'POST',
+        headers: {
+            "Content-Type" : "Application/json"
+        },
+        body: JSON.stringify(user)
+    })
 
-    console.log(data);
+    const res = await response.json();
+
+    if (response.status != 200) {
+        showMessage('danger', 'ERROR', res.error);
+    } else {
+        showMessage('success', 'OK', res.message);
+        sessionStorage.setItem('SCU', JSON.stringify(res.loggedUser));
+        navigate('users/steps');
+    }
+}
+
+function logout() {
+    clearUser();
+    loginCheck();
+    navigate('/users/login');
+}
+
+function storeUser(user) {
+    sessionStorage.setItem('SCU', JSON.stringify(user));
+}
+
+function loadUser() {
+    let user = JSON.parse(sessionStorage.getItem('SCU'));
+    return user;
+}
+
+function clearUser() {
+    sessionStorage.removeItem('SCU')
+}
+
+function loginCheck() {
+    if (user = loadUser()) { // két művelet egyben, 1: ellenőrizzük a loadUser-el a sessionStorage kulcsot, majd 2. a visszaadott értéket eltároljuk a user...
+        if(user.role == 'admin') {
+            //alert('admin belépve');
+            setMenuItems('admin')
+        } else {
+            //alert('user belépve');
+            setMenuItems('user');
+        }
+    }
+    else {
+        //alert('nincs belépve');
+        setMenuItems('');
+    }
+}
+
+function setMenuItems(param) {
+    let baseMenu = document.querySelector('#baseMenu');
+    let adminMenu = document.querySelector('#adminMenu');
+    let userMenu = document.querySelector('#userMenu');
+
+    switch(param) {
+        case 'admin' : {
+            baseMenu.classList.add('hide');
+            userMenu.classList.add('hide');
+            adminMenu.classList.remove('hide');
+            break;
+        }
+        case 'user' : {
+            baseMenu.classList.add('hide');
+            userMenu.classList.remove('hide');
+            adminMenu.classList.add('hide');
+            break;
+        }
+        default : {
+            baseMenu.classList.remove('hide');
+            userMenu.classList.add('hide');
+            adminMenu.classList.add('hide');
+            break;
+        }
+    };
 }

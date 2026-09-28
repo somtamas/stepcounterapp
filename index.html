@@ -29,9 +29,8 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-            <!-- base menu -->
+          <!-- base menu -->
+          <ul class="navbar-nav" id="baseMenu">
             <li class="navbar-item">
               <a class="nav-link" href="#" onclick="navigate('users/home')">Home</a>
             </li>
@@ -41,41 +40,58 @@
             <li class="nav-item">
               <a class="nav-link" href="#" onclick="navigate('users/register')">Registration</a>
             </li>
+          </ul>
 
-            <!-- user menu -->
+          <!-- user menu -->
+          <ul class="navbar-nav" id="userMenu">
             <li class="nav-item">
               <a class="nav-link" href="#" onclick="navigate('users/steps')">My steps</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" onclick="navigate('users/profile')">My profile</a>
             </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" onclick="logout()">Logout</a>
+            </li>
+          </ul>
 
-            <!-- admin menu -->
+          <!-- admin menu -->
+          <ul class="navbar-nav" id="adminMenu">
             <li class="nav-item">
               <a class="nav-link" href="#" onclick="navigate('admin/dashboard')">Dashboard</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" onclick="navigate('admin/users')">Manage users</a>
             </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" onclick="logout()">Logout</a>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
+
+    <div id="msg"></div>
+
     <main id="content"></main>
     <footer>
       <p class="text-center">Bajai SZC Türr István Technikum - 13.a szoftverfejlesztő</p>
     </footer>
   </div>
 
+  <!-- controllers -->
+  <script src="./controllers/userCtrl.js"></script>
+  <script src="./controllers/adminCtrl.js"></script>
+  <script src="./controllers/stepCtrl.js"></script>
+  <script src="./controllers/messageCtrl.js"></script>
+  <script src="assets/js/moment.js"></script>
+
   <!-- scripts -->
   <script src="./assets/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <script src="./assets/js/moment.js"></script>
   <script src="./assets/js/app.js"></script>
 
-  <!-- controllers -->
-   <script src="./controllers/userCtrl.js"></script>
-   <script src="./controllers/adminCtrl.js"></script>
-   <script src="./controllers/stepCtrl.js"></script>
 </body>
 
 </html>

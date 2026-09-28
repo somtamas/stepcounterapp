@@ -7,6 +7,13 @@ let theme = 'light';
 
 async function navigate(page) {
     contentBox.innerHTML = await (await fetch(`views/${page}.html`)).text();
+
+    switch(page){
+         case 'views/admin/users' : {
+             getAllUsers();
+            //  break;
+         }
+     }
 }
 
 lightModeBtn.addEventListener('click', ()=> {
@@ -49,11 +56,4 @@ navigate('/users/home');
 
 loadTheme();
 
-function lepescountchange() {
-    if(document.getElementById("ujlepesszam").value==="") {
-        document.getElementById("lepes_count").innerHTML=10000;
-    }
-    else {
-        document.getElementById("lepes_count").innerHTML=document.getElementById("ujlepesszam").value;
-    }
-}
+loginCheck();
