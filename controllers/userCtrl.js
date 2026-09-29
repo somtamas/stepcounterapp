@@ -123,7 +123,33 @@ function setMenuItems(param) {
 }
 
 async function updateProfile() {
+    let email = document.querySelector('#email');
+    let name = document.querySelector('#name');
 
+    let data = {
+        email: email.value,
+        name: name.value,
+    }
+
+    let uid = loadUser() ? loadUser().ID : 0;
+
+    const response = await fetch(`http://localhost:3000/users/${uid}/passmod`, {
+        method: 'POST',
+        headers: {
+            "Content-Type" : "Application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    let res = await response.json();
+
+    if(response.status != 200) {
+        showMessage('danger', 'ERROR', res.error);
+    } else {
+        showMessage('success', 'OK', res.message);
+        email.value = '';
+        name.value = '';
+    }
 }
 
 async function updatePassword() {
