@@ -126,19 +126,22 @@ async function updateProfile() {
     let email = document.querySelector('#email');
     let name = document.querySelector('#name');
 
+    let user = loadUser();
+
     let data = {
         email: email.value,
         name: name.value,
+        luid: user.id
     }
 
-    let uid = loadUser() ? loadUser().ID : 0;
+    let uid = loadUser() ? loadUser().id : 0;
 
-    const response = await fetch(`http://localhost:3000/users/${uid}/passmod`, {
+    const response = await fetch(`http://localhost:3000/users/${user.id}`, {
         method: 'POST',
         headers: {
             "Content-Type" : "Application/json"
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(luid)
     });
 
     let res = await response.json();
@@ -147,23 +150,28 @@ async function updateProfile() {
         showMessage('danger', 'ERROR', res.error);
     } else {
         showMessage('success', 'OK', res.message);
-        email.value = '';
-        name.value = '';
+        let user = {
+            id: loggedUser.id,
+            name: name.value,
+            email: email.value,
+            role: loggedUser.role
+        }
+        storeUser(user);
     }
 }
 
 async function updatePassword() {
-    let oldpass = document.querySelector('#oldpass');
-    let newpass = document.querySelector('#newpass');
+    let oldpassword = document.querySelector('#oldpassword');
+    let newpassword = document.querySelector('#newpassword');
     let confirm = document.querySelector('#confirm');
 
     let data = {
-        oldpass: oldpass.value,
-        newpass: newpass.value,
+        oldpassword: oldpassword.value,
+        newpassword: newpassword.value,
         confirm: confirm.value
     }
 
-    let uid = loadUser() ? loadUser().ID : 0;
+    let uid = loadUser() ? loadUser().id : 0;
 
     const response = await fetch(`http://localhost:3000/users/${uid}/passmod`, {
         method: 'POST',
@@ -179,8 +187,15 @@ async function updatePassword() {
         showMessage('danger', 'ERROR', res.error);
     } else {
         showMessage('success', 'OK', res.message);
-        oldpass.value = '';
-        newpass.value = '';
+        oldpassword.value = '';
+        newpassword.value = '';
         confirm.value = '';
     }
+}
+
+function getUserData() {
+    let user = loadUser();
+
+    document.querySelector('#name').value = user.name;
+    document.querySelector('#').value = user.email
 }
