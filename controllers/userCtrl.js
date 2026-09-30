@@ -55,8 +55,10 @@ async function login() {
         showMessage('danger', 'ERROR', res.error);
     } else {
         showMessage('success', 'OK', res.message);
-        sessionStorage.setItem('SCU', JSON.stringify(res.loggedUser));
+        storeUser(res.loggedUser);
+     ///   sessionStorage.setItem('SCU', JSON.stringify(res.loggedUser));
         navigate('users/steps');
+        loginCheck();
     }
 }
 
