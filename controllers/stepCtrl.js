@@ -1,32 +1,33 @@
 async function getUserSteps() {
     let uid = loadUser() ? loadUser().id : 0;
- 
+
     const response = await fetch(`http://localhost:3000/steps/${uid}`);
- 
+
+    const res = await response.json();
+
     if (response.status !== 200) {
-        const res = await response.json();
         showMessage('danger', 'ERROR', res.error);
         return;
     }
- 
-    const steps = await response.json();
-    drawStepsTable(steps);
+
+    drawStepsTable(res);
+    initChart(res);
 }
 
 
 
 function drawStepsTable(steps) {
     const stepsList = document.querySelector('#stepsList');
- 
+
     if (!stepsList) {
         console.error('Cannot find #stepsList');
         return;
     }
- 
+
     stepsList.innerHTML = '';
- 
+
     let totalSteps = 0;
- 
+
     if (steps.length === 0) {
         stepsList.innerHTML = `
             <tr>
@@ -36,29 +37,29 @@ function drawStepsTable(steps) {
             </tr>`;
         return;
     }
- 
+
     steps.forEach((step, index) => {
         totalSteps += Number(step.step_count);
- 
+
         const tr = document.createElement('tr');
- 
+
         const td1 = document.createElement('td');
         const td2 = document.createElement('td');
         const td3 = document.createElement('td');
         const td4 = document.createElement('td');
- 
+
         td1.textContent = (index + 1) + '.';
- 
-     
+
+
         const date = new Date(step.date);
         td2.textContent = date.toLocaleDateString('hu-HU');
- 
+
         td3.className = 'text-end';
         td3.textContent = Number(step.step_count).toLocaleString('hu-HU');
- 
-       td4.className = 'text-end';
- 
-td4.innerHTML = `
+
+        td4.className = 'text-end';
+
+        td4.innerHTML = `
     <button
         type="button"
         class="btn btn-danger"
@@ -66,19 +67,19 @@ td4.innerHTML = `
         <i class="bi bi-trash"></i>
     </button>
 `;
- 
+
         tr.appendChild(td1);
         tr.appendChild(td2);
         tr.appendChild(td3);
         tr.appendChild(td4);
- 
+
         stepsList.appendChild(tr);
     });
- 
+
     //osszegzes
     const summary = document.createElement('tr');
     summary.className = 'summary-row';
- 
+
     summary.innerHTML = `
         <td></td>
         <td class="fw-bold">Summary</td>
@@ -87,10 +88,44 @@ td4.innerHTML = `
         </td>
         <td></td>
         `;
- 
-stepsList.appendChild(summary);
-}
- 
-console.log(loadUser(
 
-))
+    stepsList.appendChild(summary);
+}
+
+console.log(loadUser());
+
+function initChart(results) {
+    console.log('initChart', results);
+    let labels = [];
+    let datas = [];
+ 
+    results.sort((a, b) => new Date(a.date) - new Date(b.date));
+ 
+    results.forEach((results) => {
+        labels.push(moment(results.date).format('YYYY-MM-DD'));
+        datas.push(results.step_count);
+    });
+    const ctx = document.getElementById('myChart');
+ 
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 2,
+                pointStyle: 'circle',
+                pointRadius: 10,
+                pointMoverRadius: 15
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+};
