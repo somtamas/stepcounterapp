@@ -76,16 +76,6 @@ function addTableRow(user, index) {
     usersList.appendChild(tr);
 }
 
-function drawTable(users) {
-    let usersCount = document.querySelector('#usersCount');
-
-    usersCount.innerHTML = users.length;
-
-    users.forEach((user, index) => {
-        addTableRow(user, index);
-    });
-}
-
 function addTableRow(user, index) {
     let usersList = document.querySelector('#usersList');
 

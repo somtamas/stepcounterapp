@@ -55,3 +55,7 @@ p {
 .hide {
     display: none;
 }
+
+#calendar {
+    margin: 0 auto;
+}
